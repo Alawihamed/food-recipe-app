@@ -1,5 +1,6 @@
 import Categories from "@/components/Categories";
 import Header from "@/components/Header";
+import Products from "@/components/Products";
 import Search from "@/components/Search";
 import React from "react";
 import { ScrollView } from "react-native";
@@ -12,6 +13,7 @@ export default function Home() {
         <Header />
         <Search />
         <Categories />
+        <Products />
       </ScrollView>
     </SafeAreaView>
   );

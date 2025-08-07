@@ -1,14 +1,13 @@
 import { CategoriesResponse } from "@/types";
 import { getApi } from "@/utils";
+import useCategoryStore from "@/utils/store/categoryStore";
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CategorySkeleton from "./CategorySkeleton";
 
 const Categories = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-
   const { data, isLoading, error, refetch } = useQuery<CategoriesResponse>({
     queryKey: ["categories"],
     queryFn: () =>
@@ -19,6 +18,14 @@ const Categories = () => {
     gcTime: 1000 * 60 * 30,
     retry: 1,
   });
+
+  const { category: selectedCategory, handleCategory } = useCategoryStore();
+
+  useEffect(() => {
+    if (data?.categories) {
+      handleCategory(data.categories[0]?.strCategory);
+    }
+  }, [data?.categories]);
 
   if (isLoading) {
     return (
@@ -47,7 +54,7 @@ const Categories = () => {
   }
 
   return (
-    <View className="h-full flex flex-row p-4">
+    <View className="flex flex-row p-4">
       <FlatList
         onRefresh={() => refetch()}
         refreshing={isLoading && !!data}
@@ -64,12 +71,12 @@ const Categories = () => {
         renderItem={({ item: category }) => (
           <TouchableOpacity
             onPress={() => {
-              setSelectedCategory(category.idCategory);
+              handleCategory(category.strCategory);
             }}
           >
             <View className="flex flex-col items-center justify-center gap-2">
               <View
-                className={`max-h-16 max-w-16 min-h-16 min-w-16 rounded-full bg-orange-100 p-1 ${selectedCategory === category.idCategory && "border border-solid border-orange-200"}`}
+                className={`max-h-16 max-w-16 min-h-16 min-w-16 rounded-full bg-orange-100 p-1 ${selectedCategory === category.strCategory && "bg-orange-200 border border-solid border-orange-200"}`}
               >
                 <Image
                   source={{ uri: category.strCategoryThumb }}

@@ -8,3 +8,13 @@ export type Category = {
     strCategoryThumb: string;
     strCategoryDescription: string;
 };
+
+export type ProductsResponse = {
+    meals: Meals[];
+};
+
+export type Meals = {
+    strMeal: string;
+    strMealThumb: string;
+    idMeal: string;
+}

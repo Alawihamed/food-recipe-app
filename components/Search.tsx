@@ -1,11 +1,9 @@
+import useSearchStore from "@/utils/store/searchStore";
 import { Ionicons } from "@expo/vector-icons";
 import { TextInput, View } from "react-native";
 
-const Search = ({
-  searchForTodo,
-}: {
-  searchForTodo?: (text: string) => void;
-}) => {
+const Search = () => {
+  const { handleSearch } = useSearchStore();
   return (
     <View className="w-full px-4">
       <View className="flex flex-row items-center justify-between gap-2 p-4 bg-[#fcfcfc] rounded-[4px]">
@@ -14,9 +12,13 @@ const Search = ({
           placeholder="Search ..."
           className="flex-1 text-gray-700 font-semibold h-full border-none outline-none"
           clearButtonMode="always"
-          onChangeText={(searchText) =>
-            searchForTodo && searchForTodo(searchText)
-          }
+          onChangeText={(searchText) => {
+            if (searchText !== "") {
+              handleSearch(searchText);
+            } else {
+              handleSearch("");
+            }
+          }}
         />
       </View>
     </View>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Animated, StyleSheet, View } from "react-native";
 
-const CategorySkeleton = () => {
+const ProductSkeleton = () => {
   const [animation] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const CategorySkeleton = () => {
   );
 
   return (
-    <View className="p-4 flex flex-row items-center gap-4">
+    <View className="p-4 flex flex-row flex-wrap items-center gap-4">
       {Array.from({ length: 8 }, (_, i) => renderRow(i))}
     </View>
   );
@@ -44,10 +44,10 @@ const CategorySkeleton = () => {
 
 const styles = StyleSheet.create({
   skeletonRow: {
-    width: 64,
-    height: 64,
-    borderRadius: 99,
+    width: "48%",
+    height: 145,
+    borderRadius: 6,
   },
 });
 
-export default CategorySkeleton;
+export default ProductSkeleton;
